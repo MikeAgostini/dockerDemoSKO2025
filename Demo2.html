@@ -83,6 +83,16 @@ docker run --init --rm matlab/sko hostname
     <button class="copy-button" onclick="copyToClipboard('line33')">Copy</button>
     <span class="code" id="line33">docker run --init --rm matlab/sko hostname</span>
 </div>
+docker run --init --rm matlab/sko which matlab
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line44')">Copy</button>
+    <span class="code" id="line44">docker run --init --rm matlab/sko which matlab</span>
+</div>
+docker run --init --rm matlab/sko which matlab-batch
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line44')">Copy</button>
+    <span class="code" id="line44">docker run --init --rm matlab/sko which matlab-batch</span>
+</div>
 docker run --init --rm matlab/sko matlab-batch ver
 <div class="code-container">
     <button class="copy-button" onclick="copyToClipboard('line34')">Copy</button>
@@ -132,7 +142,15 @@ docker run --init --rm matlab/sko matlab-batch ver
    {Find   --> ARG MATLAB_PRODUCT_LIST="MATLAB"} (line 17)
    {Change --> ARG MATLAB_PRODUCT_LIST="MATLAB Simulink"}
    {Rebuild dockerfile}
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line32')">Copy</button>
+    <span class="code" id="line32">docker build -t="matlab/sko" .</span>
+</div>
    {Rerun dockerfile with 'ver' command}
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line38')">Copy</button>
+    <span class="code" id="line38">docker run --init --rm -e MLM_LICENSE_TOKEN matlab/sko matlab-batch ver</span>
+</div>
 
 <b>PART5: MODIFY DOCKERFILE 2:</b>
    cp ~/dockerDemoSKO2025/sko2025.m .
@@ -152,6 +170,10 @@ docker run --init --rm matlab/sko matlab-batch ver
     <span class="code" id="line41">COPY sko2025.m /home/matlab</span>
 </div>
    {Rebuild dockerfile}
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line32')">Copy</button>
+    <span class="code" id="line32">docker build -t="matlab/sko" .</span>
+</div>
    {Rerun dockerfile with 'sko2025' instead of 'ver'}
 <div class="code-container">
     <button class="copy-button" onclick="copyToClipboard('line42')">Copy</button>

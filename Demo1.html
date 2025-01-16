@@ -65,16 +65,16 @@ docker images
 docker ps
 
 <b>PART3: RUN A CONTAINER (from the image)</b>
-sleep 5
-docker run --rm ubuntu/sko sleep 5 
+sleep 4
+docker run --rm ubuntu/sko sleep 4 
 <div class="code-container">
     <button class="copy-button" onclick="copyToClipboard('line13')">Copy</button>
-    <span class="code" id="line13">docker run --rm ubuntu/sko sleep 5</span>
+    <span class="code" id="line13">docker run --rm ubuntu/sko sleep 4</span>
 </div>
-docker run --rm ubuntu/sko sleep 15 &
+docker run --rm ubuntu/sko sleep 12 &
 <div class="code-container">
     <button class="copy-button" onclick="copyToClipboard('line14')">Copy</button>
-    <span class="code" id="line14">docker run --rm ubuntu/sko sleep 5</span>
+    <span class="code" id="line14">docker run --rm ubuntu/sko sleep 12 &</span>
 </div>
 docker ps
 
@@ -83,6 +83,7 @@ pwd
 whoami
 hostname
 which matlab
+which docker
 
 docker run -it --rm ubuntu/sko
 <div class="code-container">
