@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo 2: MATLAB Docker Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            overflow-x: auto;
+        }
+        code {
+            font-family: "Courier New", Courier, monospace;
+        }
+	        .code-container {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+        .copy-button {
+            padding: 1px 5px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 1px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .copy-button:hover {
+            background-color: #0056b3;
+        }
+        .code {
+            background-color: #f5f5f5;
+            padding: 3px;
+            border: 1px solid #ddd;
+            border-radius: 1px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Demo 2: Build and Run MATLAB Container</h1>
+    <pre><code>
+
+<b>PART1: CREATE A WORKING FOLDER</b>
+clc
+cd
+mkdir demo2
+cd demo2
+
+<b>PART2: CLONE MATHWORKS REFERENCE ARCHITECTURE</b>
+git clone https://github.com/mathworks-ref-arch/matlab-dockerfile.git
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line30')">Copy</button>
+    <span class="code" id="line30">git clone https://github.com/mathworks-ref-arch/matlab-dockerfile.git</span>
+</div>
+
+cd matlab-dockerfile/alternates/non-interactive
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line31')">Copy</button>
+    <span class="code" id="line31">cd matlab-dockerfile/alternates/non-interactive</span>
+</div>
+
+
+<b>PART3: BUILD DOCKER IMAGE WITH MATLAB</b>
+docker images
+docker build -t="matlab/sko" .
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line32')">Copy</button>
+    <span class="code" id="line32">docker build -t="matlab/sko" .</span>
+</div>
+docker images
+docker run --init --rm matlab/sko hostname
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line33')">Copy</button>
+    <span class="code" id="line33">docker run --init --rm matlab/sko hostname</span>
+</div>
+docker run --init --rm matlab/sko matlab-batch ver
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line34')">Copy</button>
+    <span class="code" id="line34">docker run --init --rm matlab/sko matlab-batch ver</span>
+</div>
+
+
+   <i><b>OPTION 1</b> PASS BATCH TOKEN USING LICENSETOKEN SWITCH:</i> 
+
+   {Get your batch token: https://batch-tokens.ipws.mathworks.com/}
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line35')">Copy</button>
+    <span class="code" id="line35">https://batch-tokens.ipws.mathworks.com</span>
+</div>
+   {Or use pre-generated token on other TAB-'Batch Token'}
+
+   docker run --init --rm matlab/sko matlab-batch -licenseToken "insert batch token here" ver
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line36')">Copy</button>
+    <span class="code" id="line36">docker run --init --rm matlab/sko matlab-batch -licenseToken "insert batch token here" ver</span>
+</div>
+
+
+   <i><b>OPTION 2</b>-PASS A LOCAL ENVIRONMENT VARIABLE TO CONTAINER:</i>
+
+   echo $MLM_LICENSE_TOKEN
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line37')">Copy</button>
+    <span class="code" id="line37">echo $MLM_LICENSE_TOKEN</span>
+</div>
+
+   {export MLM_LICENSE_TOKEN="user@email.com|encodedToken"}
+
+   docker run --init --rm -e MLM_LICENSE_TOKEN matlab/sko matlab-batch ver
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line38')">Copy</button>
+    <span class="code" id="line38">docker run --init --rm -e MLM_LICENSE_TOKEN matlab/sko matlab-batch ver</span>
+</div>
+
+<b>PART4: MODIFY DOCKERFILE 1:</b>
+   gedit Dockerfile
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line39')">Copy</button>
+    <span class="code" id="line39">gedit Dockerfile</span>
+</div>
+
+   {Find   --> ARG MATLAB_PRODUCT_LIST="MATLAB"} (line 17)
+   {Change --> ARG MATLAB_PRODUCT_LIST="MATLAB Simulink"}
+   {Rebuild dockerfile}
+   {Rerun dockerfile with 'ver' command}
+
+<b>PART5: MODIFY DOCKERFILE 2:</b>
+   cp ~/sko2025.m .
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line40')">Copy</button>
+    <span class="code" id="line40">cp ~/sko2025.m .</span>
+</div>
+   gedit Dockerfile
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line39')">Copy</button>
+    <span class="code" id="line39">gedit Dockerfile</span>
+</div>
+   {Go to the end of the file}
+   {ADD NEW LINE --> COPY sko2025.m /home/matlab}
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line41')">Copy</button>
+    <span class="code" id="line41">COPY sko2025.m /home/matlab</span>
+</div>
+   {Rebuild dockerfile}
+   {Rerun dockerfile with 'sko2025' instead of 'ver'}
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line42')">Copy</button>
+    <span class="code" id="line42">docker run --init --rm -e MLM_LICENSE_TOKEN matlab/sko matlab-batch sko2025</span>
+</div>
+
+    </code></pre>
+
+<script>
+    function copyToClipboard(elementId) {
+        // Get the text from the specified code snippet
+        const codeSnippet = document.getElementById(elementId).innerText;
+
+        // Create a temporary textarea element to hold the text
+        const tempTextArea = document.createElement('textarea');
+        tempTextArea.value = codeSnippet;
+        document.body.appendChild(tempTextArea);
+
+        // Select the text and copy it to the clipboard
+        tempTextArea.select();
+        document.execCommand('copy');
+
+        // Remove the temporary textarea element
+        document.body.removeChild(tempTextArea);
+
+        // Optionally, provide feedback to the user
+//      alert('Code copied to clipboard!');
+    }
+</script>
+</body>
+</html>
+

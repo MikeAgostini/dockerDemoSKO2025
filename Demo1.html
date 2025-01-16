@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo 1: Basic Docker Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            overflow-x: auto;
+        }
+        code {
+            font-family: "Courier New", Courier, monospace;
+        }
+	.code-container {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+        .copy-button {
+            padding: 1px 5px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 1px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .copy-button:hover {
+            background-color: #0056b3;
+        }
+        .code {
+            background-color: #f5f5f5;
+            padding: 3px;
+            border: 1px solid #ddd;
+            border-radius: 1px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Demo 1: Build and Run Ubuntu Container</h1>
+    <pre><code>
+<b>PART1: CREATE A WORKING FOLDER</b>
+cd
+mkdir demo1
+cd demo1
+
+<b>PART2: BUILD THE IMAGE (from the dockerfile)</b>
+docker images
+docker build -t="ubuntu/sko" github.com/MikeAgostini/ubuntu
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line12')">Copy</button>
+    <span class="code" id="line12">docker build -t="ubuntu/sko" github.com/MikeAgostini/ubuntu</span>
+</div>
+docker images
+docker ps
+
+<b>PART3: RUN A CONTAINER (from the image)</b>
+sleep 5
+docker run --rm ubuntu/sko sleep 5 
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line13')">Copy</button>
+    <span class="code" id="line13">docker run --rm ubuntu/sko sleep 5</span>
+</div>
+docker run --rm ubuntu/sko sleep 15 &
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line14')">Copy</button>
+    <span class="code" id="line14">docker run --rm ubuntu/sko sleep 5</span>
+</div>
+docker ps
+
+<b>PART4: INVESTIGATE THE CONTAINER</b>
+pwd
+whoami
+hostname
+which matlab
+
+docker run -it --rm ubuntu/sko
+<div class="code-container">
+    <button class="copy-button" onclick="copyToClipboard('line15')">Copy</button>
+    <span class="code" id="line15">docker run -it --rm ubuntu/sko</span>
+</div>
+
+pwd
+whoami
+hostname
+which matlab
+which docker
+
+<b>PART5: EXIT CONTAINER</b>
+exit
+hostname
+whoami
+docker images
+docker ps -a
+
+===================================================
+= <b>REFERENCE</b>                                       =
+===================================================
+<b>Docker commands:</b>
+--------------------------
+docker images       (list images)
+docker ps           (list running containers)
+docker ps -a        (list all containers)
+docker rm           (remove a container)
+docker build        (build an image)
+docker run          (run a container)
+docker rmi IMAGE_ID (remove image)
+--
+<b>Batch tokens</b>
+--------------------------
+https://batch-tokens.ipws.mathworks.com/
+file:///home/matlab/batchtoken.html
+
+<b>Ubuntu Docker</b>
+--------------------------
+https://github.com/dockerfile/ubuntu
+
+<b>MATLAB Docker</b>
+--------------------------
+https://github.com/mathworks-ref-arch/matlab-dockerfile/tree/main
+https://github.com/mathworks-ref-arch/matlab-dockerfile/tree/main/alternates/non-interactive
+
+    </code></pre>
+
+<script>
+    function copyToClipboard(elementId) {
+        // Get the text from the specified code snippet
+        const codeSnippet = document.getElementById(elementId).innerText;
+
+        // Create a temporary textarea element to hold the text
+        const tempTextArea = document.createElement('textarea');
+        tempTextArea.value = codeSnippet;
+        document.body.appendChild(tempTextArea);
+
+        // Select the text and copy it to the clipboard
+        tempTextArea.select();
+        document.execCommand('copy');
+
+        // Remove the temporary textarea element
+        document.body.removeChild(tempTextArea);
+
+        // Optionally, provide feedback to the user
+        //alert('Code copied to clipboard!');
+    }
+</script>
+</body>
+</html>
