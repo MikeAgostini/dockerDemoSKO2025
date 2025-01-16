@@ -6,10 +6,10 @@
 URLS=(
     "https://github.com/MikeAgostini/ubuntu"
     "https://github.com/mathworks-ref-arch/matlab-dockerfile/tree/main/alternates/non-interactive"
-    "file:///home/matlab/BatchToken.html"
-    "file:///home/matlab/Demo1.html"
-    "file:///home/matlab/Demo2.html"
-    "file:///home/matlab/Linux.html"
+    "file:///home/matlab/backup/BatchToken.html"
+    "file:///home/matlab/dockerDemoSKO2025/Demo1.html"
+    "file:///home/matlab/dockerDemoSKO2025/Demo2.html"
+    "file:///home/matlab/dockerDemoSKO2025/Linux.html"
 )
 
 # Open each URL in a new tab
