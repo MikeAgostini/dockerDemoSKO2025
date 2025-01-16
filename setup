@@ -1,0 +1,89 @@
+#!/bin/bash
+
+# Launch Firefox
+# List of URLs to open
+#   "https://github.com/mathworks-ref-arch/matlab-dockerfile/tree/main"
+URLS=(
+    "https://github.com/MikeAgostini/ubuntu"
+    "https://github.com/mathworks-ref-arch/matlab-dockerfile/tree/main/alternates/non-interactive"
+    "file:///home/matlab/BatchToken.html"
+    "file:///home/matlab/Demo1.html"
+    "file:///home/matlab/Demo2.html"
+    "file:///home/matlab/Linux.html"
+)
+
+# Open each URL in a new tab
+for URL in "${URLS[@]}"; do
+    firefox --new-tab "$URL" &
+    sleep 1.5
+done
+
+#firefox https://github.com/dockerfile/ubuntu &
+#firefox https://github.com/mathworks-ref-arch/matlab-dockerfile/tree/main
+#firefox https://github.com/mathworks-ref-arch/matlab-dockerfile/tree/main/alternates/non-interactive
+#firefox file:///home/matlab/Demo1.html
+#firefox file:///home/matlab/Demo2.html
+
+# Use wmctrl to get the window ID of the Firefox window
+WINDOW_ID=$(wmctrl -l | grep -i "firefox" | awk '{print $1}')
+
+# Check if the window ID was found
+if [ -z "$WINDOW_ID" ]; then
+    echo "Firefox window not found."
+    exit 1
+fi
+
+# Get screen dimensions
+SCREEN_WIDTH=$(xdpyinfo | awk '/dimensions:/ {print $2}' | cut -d 'x' -f 1)
+SCREEN_HEIGHT=$(xdpyinfo | awk '/dimensions:/ {print $2}' | cut -d 'x' -f 2)
+
+# Calculate new window dimensions for the right half
+NEW_WIDTH=$((SCREEN_WIDTH / 2))
+NEW_HEIGHT=$SCREEN_HEIGHT
+NEW_X=$((SCREEN_WIDTH / 2))
+NEW_Y=0
+
+# Move and resize the Firefox window using wmctrl
+wmctrl -i -r "$WINDOW_ID" -e 0,$NEW_X,$NEW_Y,$NEW_WIDTH,$NEW_HEIGHT
+
+# Start opening correct tabs
+
+# Launch two GNOME Terminal windows
+gnome-terminal &
+
+# Allow some time for the terminals to start
+sleep 1
+
+#gnome-terminal &
+
+# Allow some time for the terminals to start
+#sleep 2
+
+# Get the window IDs of the GNOME Terminal windows
+WINDOW_IDS=$(wmctrl -l | grep -i "matlab@" | awk '{print $1}')
+
+# Get screen dimensions
+SCREEN_WIDTH=$(xdpyinfo | awk '/dimensions:/ {print $2}' | cut -d 'x' -f 1)
+SCREEN_HEIGHT=$(xdpyinfo | awk '/dimensions:/ {print $2}' | cut -d 'x' -f 2)
+
+# Calculate dimensions for each terminal
+HALF_WIDTH=$((SCREEN_WIDTH / 2))
+HALF_HEIGHT=$((SCREEN_HEIGHT / 2))
+
+# Calculate 80%
+EIGHTY_WIDTH=$((4*SCREEN_WIDTH / 5))
+EIGHTY_HEIGHT=$((4*SCREEN_HEIGHT / 5))
+
+# Position the windows
+INDEX=0
+for WINDOW_ID in $WINDOW_IDS; do
+    if [ $INDEX -eq 0 ]; then
+        # First terminal goes to the top-left
+        wmctrl -i -r "$WINDOW_ID" -e 0,0,0,$HALF_WIDTH,$EIGHTY_HEIGHT
+    elif [ $INDEX -eq 1 ]; then
+        # Second terminal goes to the bottom-left
+        wmctrl -i -r "$WINDOW_ID" -e 0,0,0,$HALF_WIDTH,$EIGHTY_HEIGHT
+#       wmctrl -i -r "$WINDOW_ID" -e 0,0,$HALF_HEIGHT,$HALF_WIDTH,$HALF_HEIGHT
+    fi
+    INDEX=$((INDEX + 1))
+done
