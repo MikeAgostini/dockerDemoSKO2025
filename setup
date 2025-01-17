@@ -4,7 +4,7 @@
 # List of URLs to open
 #   "https://github.com/mathworks-ref-arch/matlab-dockerfile/tree/main"
 firefox &
-sleep 3
+sleep 6
 URLS=(
     "https://github.com/MikeAgostini/ubuntu"
     "https://github.com/mathworks-ref-arch/matlab-dockerfile/tree/main/alternates/non-interactive"
