@@ -13,16 +13,12 @@ URLS=(
 )
 
 # Open each URL in a new tab
-for URL in "${URLS[@]}"; do
-    firefox --new-tab "$URL" &
-    sleep 1.5
-done
-
-#firefox https://github.com/dockerfile/ubuntu &
-#firefox https://github.com/mathworks-ref-arch/matlab-dockerfile/tree/main
-#firefox https://github.com/mathworks-ref-arch/matlab-dockerfile/tree/main/alternates/non-interactive
-#firefox file:///home/matlab/Demo1.html
-#firefox file:///home/matlab/Demo2.html
+#for URL in "${URLS[@]}"; do
+#    firefox --new-tab "$URL" &
+#    sleep 1.5
+#done
+firefox &
+sleep 3
 
 # Use wmctrl to get the window ID of the Firefox window
 WINDOW_ID=$(wmctrl -l | grep -i "firefox" | awk '{print $1}')
